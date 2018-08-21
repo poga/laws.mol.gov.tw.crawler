@@ -14,14 +14,15 @@ async function main(db) {
   let year = new Date().getFullYear() - 1911
   let month = new Date().getMonth() + 1
   let day = new Date().getDate()
+  let previousDay = (day - 1 > 0) ? day - 1 : day
   console.log(year, month, day)
   await page.type('#cph_content_txtY1', `${year}`)
   await page.type('#cph_content_txtM1', `${month}`)
-  await page.type('#cph_content_txtD1', `${day}`)
+  await page.type('#cph_content_txtD1', `${previousDay}`)
 
   await page.type('#cph_content_txtY2', `${year}`)
   await page.type('#cph_content_txtM2', `${month}`)
-  await page.type('#cph_content_txtD2', `${day + 1}`)
+  await page.type('#cph_content_txtD2', `${day}`)
 
   await page.evaluate(() => {
     document.querySelector('#cph_content_btnSend').click()
