@@ -2,8 +2,9 @@ const puppeteer = require('puppeteer')
 const levelup = require('levelup')
 const leveldown = require('leveldown')
 const GitHub = require('github-api')
+const fs = require('fs')
 
-async function main(db) {
+async function main (db) {
   let gh = new GitHub({ token: process.env.TOKEN })
   let me = gh.getUser()
   let issues = gh.getIssues('g0v', 'tw-shift-schedule')
@@ -79,11 +80,13 @@ async function main(db) {
   }
 
   await browser.close()
+
+  fs.writeFileSync('status.json', { lastUpdateTime: `${new Date()}` })
 }
 
 let db = levelup(leveldown('./crawler'))
 main(db)
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }
