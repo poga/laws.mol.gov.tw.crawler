@@ -3,6 +3,7 @@ const levelup = require('levelup')
 const leveldown = require('leveldown')
 const GitHub = require('github-api')
 const fs = require('fs')
+const path = require('path')
 
 async function main (db) {
   let gh = new GitHub({ token: process.env.TOKEN })
@@ -81,7 +82,7 @@ async function main (db) {
 
   await browser.close()
 
-  fs.writeFileSync('status.json', { lastUpdateTime: `${new Date()}` })
+  fs.writeFileSync(path.join(__dirname, 'status.json'), JSON.stringify({ lastUpdateTime: `${new Date()}` }))
 }
 
 let db = levelup(leveldown('./crawler'))
